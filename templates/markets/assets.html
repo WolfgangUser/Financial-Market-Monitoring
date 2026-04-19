@@ -1,0 +1,42 @@
+{% extends 'markets/base.html' %}
+
+{% block content %}
+<div class="assets-page">
+    <div class="page-header">
+        <h1>All Assets</h1>
+        <p class="subtitle">Browse and monitor financial assets across different markets</p>
+    </div>
+
+    <!-- Filter Tabs -->
+    <div class="filter-tabs">
+        <a href="{% url 'assets-list' %}" class="filter-tab {% if not current_type %}active{% endif %}">All</a>
+        <a href="?type=STOCK" class="filter-tab {% if current_type == 'STOCK' %}active{% endif %}">Stocks</a>
+        <a href="?type=CRYPTO" class="filter-tab {% if current_type == 'CRYPTO' %}active{% endif %}">Crypto</a>
+        <a href="?type=FOREX" class="filter-tab {% if current_type == 'FOREX' %}active{% endif %}">Forex</a>
+        <a href="?type=COMMODITY" class="filter-tab {% if current_type == 'COMMODITY' %}active{% endif %}">Commodities</a>
+        <a href="?type=INDEX" class="filter-tab {% if current_type == 'INDEX' %}active{% endif %}">Indices</a>
+    </div>
+
+    <!-- Assets Grid -->
+    <div class="assets-grid">
+        {% for asset in assets %}
+        <a href="{% url 'asset-detail' asset.symbol %}" class="asset-card">
+            <div class="asset-header">
+                <span class="symbol-badge large">{{ asset.symbol }}</span>
+                <span class="type-tag type-{{ asset.asset_type|lower }}">{{ asset.get_asset_type_display }}</span>
+            </div>
+            <h3 class="asset-name">{{ asset.name }}</h3>
+            <p class="asset-description">{{ asset.description|truncatewords:15|default:"No description available" }}</p>
+            <div class="asset-footer">
+                <span class="view-details">View Details →</span>
+            </div>
+        </a>
+        {% empty %}
+        <div class="empty-state-large">
+            <p>No assets found. Add assets via the admin panel.</p>
+            <a href="/admin/" class="btn btn-primary">Go to Admin</a>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

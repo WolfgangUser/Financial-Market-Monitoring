@@ -1,0 +1,108 @@
+{% extends 'markets/base.html' %}
+
+{% block content %}
+<div class="dashboard">
+    <div class="page-header">
+        <h1>Market Dashboard</h1>
+        <p class="subtitle">Real-time financial market monitoring and analysis</p>
+    </div>
+
+    <!-- Market Overview Cards -->
+    <div class="stats-grid">
+        <div class="stat-card">
+            <div class="stat-icon">📊</div>
+            <div class="stat-content">
+                <span class="stat-value">{{ assets.count }}</span>
+                <span class="stat-label">Tracked Assets</span>
+            </div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon">📈</div>
+            <div class="stat-content">
+                <span class="stat-value">+2.4%</span>
+                <span class="stat-label">Market Trend</span>
+            </div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon">🕐</div>
+            <div class="stat-content">
+                <span class="stat-value">Live</span>
+                <span class="stat-label">Market Status</span>
+            </div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon">📰</div>
+            <div class="stat-content">
+                <span class="stat-value">{{ news|length }}</span>
+                <span class="stat-label">Latest News</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Top Assets Section -->
+    <section class="content-section">
+        <div class="section-header">
+            <h2>Top Assets</h2>
+            <a href="{% url 'assets-list' %}" class="btn btn-link">View All →</a>
+        </div>
+        <div class="table-container">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Symbol</th>
+                        <th>Name</th>
+                        <th>Type</th>
+                        <th>Price</th>
+                        <th>Change</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for asset in assets %}
+                    <tr>
+                        <td><span class="symbol-badge">{{ asset.symbol }}</span></td>
+                        <td>{{ asset.name }}</td>
+                        <td><span class="type-tag type-{{ asset.asset_type|lower }}">{{ asset.get_asset_type_display }}</span></td>
+                        <td class="price-cell">$--.--</td>
+                        <td class="change-cell">--%</td>
+                        <td>
+                            <a href="{% url 'asset-detail' asset.symbol %}" class="btn btn-sm">Details</a>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="6" class="empty-state">
+                            No assets available. Add some assets via admin panel.
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- Latest News Section -->
+    <section class="content-section">
+        <div class="section-header">
+            <h2>Latest Market News</h2>
+            <a href="{% url 'news' %}" class="btn btn-link">View All →</a>
+        </div>
+        <div class="news-grid">
+            {% for item in news %}
+            <article class="news-card">
+                <div class="news-content">
+                    <h3>{{ item.title }}</h3>
+                    <p>{{ item.content|truncatewords:20 }}</p>
+                    <div class="news-meta">
+                        <span class="news-source">{{ item.source }}</span>
+                        <span class="news-time">{{ item.published_at|timesince }} ago</span>
+                    </div>
+                </div>
+            </article>
+            {% empty %}
+            <p class="empty-state">No news available.</p>
+            {% endfor %}
+        </div>
+    </section>
+</div>
+{% endblock %}
