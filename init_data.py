@@ -9,19 +9,19 @@ from markets.services import MarketDataService, NewsService
 from django.utils import timezone
 from datetime import timedelta
 
-# Create sample assets
+# Демо-данные активов
 assets_data = [
-    {'symbol': 'AAPL', 'name': 'Apple Inc.', 'asset_type': 'STOCK', 'description': 'Technology company that designs and manufactures consumer electronics.'},
-    {'symbol': 'GOOGL', 'name': 'Alphabet Inc.', 'asset_type': 'STOCK', 'description': 'Multinational technology conglomerate holding company.'},
-    {'symbol': 'MSFT', 'name': 'Microsoft Corporation', 'asset_type': 'STOCK', 'description': 'Technology corporation producing computer software, consumer electronics.'},
-    {'symbol': 'TSLA', 'name': 'Tesla Inc.', 'asset_type': 'STOCK', 'description': 'Electric vehicle and clean energy company.'},
-    {'symbol': 'BTC', 'name': 'Bitcoin', 'asset_type': 'CRYPTO', 'description': 'Decentralized digital cryptocurrency.'},
-    {'symbol': 'ETH', 'name': 'Ethereum', 'asset_type': 'CRYPTO', 'description': 'Open-source blockchain platform with smart contract functionality.'},
-    {'symbol': 'EURUSD', 'name': 'Euro / US Dollar', 'asset_type': 'FOREX', 'description': 'Currency pair representing Euro against US Dollar.'},
-    {'symbol': 'GOLD', 'name': 'Gold', 'asset_type': 'COMMODITY', 'description': 'Precious metal commodity.'},
+    {'symbol': 'AAPL', 'name': 'Apple Inc.', 'asset_type': 'STOCK', 'description': 'Технологическая компания, разрабатывающая и производящая потребительскую электронику.'},
+    {'symbol': 'GOOGL', 'name': 'Alphabet Inc.', 'asset_type': 'STOCK', 'description': 'Многонациональная технологическая холдинговая компания.'},
+    {'symbol': 'MSFT', 'name': 'Microsoft Corporation', 'asset_type': 'STOCK', 'description': 'Технологическая корпорация, производящая компьютерное программное обеспечение и потребительскую электронику.'},
+    {'symbol': 'TSLA', 'name': 'Tesla Inc.', 'asset_type': 'STOCK', 'description': 'Компания по производству электромобилей и чистой энергии.'},
+    {'symbol': 'BTC', 'name': 'Bitcoin', 'asset_type': 'CRYPTO', 'description': 'Децентрализованная цифровая криптовалюта.'},
+    {'symbol': 'ETH', 'name': 'Ethereum', 'asset_type': 'CRYPTO', 'description': 'Платформа блокчейн с открытым исходным кодом с функциональностью смарт-контрактов.'},
+    {'symbol': 'EURUSD', 'name': 'Евро / Доллар США', 'asset_type': 'FOREX', 'description': 'Валютная пара, представляющая евро к доллару США.'},
+    {'symbol': 'GOLD', 'name': 'Золото', 'asset_type': 'COMMODITY', 'description': 'Драгоценный металл.'},
 ]
 
-print("Creating assets...")
+print("Создание активов...")
 for asset_data in assets_data:
     asset, created = Asset.objects.get_or_create(
         symbol=asset_data['symbol'],
@@ -32,9 +32,9 @@ for asset_data in assets_data:
         }
     )
     if created:
-        print(f"  Created: {asset.symbol}")
+        print(f"  Создан: {asset.symbol}")
         
-        # Generate historical price data
+        # Генерация исторических данных о ценах
         historical = MarketDataService.fetch_historical_data(asset, 30)
         for data in historical:
             from markets.models import PriceData
@@ -48,10 +48,10 @@ for asset_data in assets_data:
                 volume=data['volume']
             )
 
-# Create sample watchlists
-print("\nCreating watchlists...")
-tech_watchlist, _ = Watchlist.objects.get_or_create(name='Tech Stocks')
-crypto_watchlist, _ = Watchlist.objects.get_or_create(name='Cryptocurrencies')
+# Создание списков наблюдения
+print("\nСоздание списков наблюдения...")
+tech_watchlist, _ = Watchlist.objects.get_or_create(name='Технологические акции')
+crypto_watchlist, _ = Watchlist.objects.get_or_create(name='Криптовалюты')
 
 stocks = Asset.objects.filter(asset_type='STOCK')
 cryptos = Asset.objects.filter(asset_type='CRYPTO')
@@ -59,11 +59,11 @@ cryptos = Asset.objects.filter(asset_type='CRYPTO')
 tech_watchlist.assets.set(stocks)
 crypto_watchlist.assets.set(cryptos)
 
-print(f"  Created: {tech_watchlist.name} ({tech_watchlist.assets.count()} assets)")
-print(f"  Created: {crypto_watchlist.name} ({crypto_watchlist.assets.count()} assets)")
+print(f"  Создан: {tech_watchlist.name} ({tech_watchlist.assets.count()} активов)")
+print(f"  Создан: {crypto_watchlist.name} ({crypto_watchlist.assets.count()} активов)")
 
-# Create sample news
-print("\nCreating news...")
+# Создание новостей
+print("\nСоздание новостей...")
 news_items = NewsService.get_latest_news(5)
 for item in news_items:
     news, created = MarketNews.objects.get_or_create(
@@ -75,9 +75,9 @@ for item in news_items:
         }
     )
     if created:
-        print(f"  Created: {news.title[:50]}...")
+        print(f"  Создана: {news.title[:50]}...")
 
-print("\n✅ Sample data initialization complete!")
-print(f"\nTotal assets: {Asset.objects.count()}")
-print(f"Total watchlists: {Watchlist.objects.count()}")
-print(f"Total news items: {MarketNews.objects.count()}")
+print("\n✅ Инициализация демо-данных завершена!")
+print(f"\nВсего активов: {Asset.objects.count()}")
+print(f"Всего списков наблюдения: {Watchlist.objects.count()}")
+print(f"Всего новостей: {MarketNews.objects.count()}")

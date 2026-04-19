@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Market Monitor{% endblock %} | {{ page_title|default:'Dashboard' }}</title>
+    <title>{% block title %}Мониторинг Рынка{% endblock %} | {{ page_title|default:'Панель управления' }}</title>
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -13,16 +13,16 @@
         <div class="nav-container">
             <a href="{% url 'home' %}" class="nav-brand">
                 <span class="brand-icon">📈</span>
-                Market Monitor
+                Мониторинг Рынка
             </a>
             <ul class="nav-menu">
-                <li><a href="{% url 'home' %}" class="nav-link {% if request.resolver_match.url_name == 'home' %}active{% endif %}">Dashboard</a></li>
-                <li><a href="{% url 'assets-list' %}" class="nav-link {% if request.resolver_match.url_name == 'assets-list' %}active{% endif %}">Assets</a></li>
-                <li><a href="{% url 'news' %}" class="nav-link {% if request.resolver_match.url_name == 'news' %}active{% endif %}">News</a></li>
-                <li><a href="{% url 'watchlists' %}" class="nav-link {% if request.resolver_match.url_name == 'watchlists' %}active{% endif %}">Watchlists</a></li>
+                <li><a href="{% url 'home' %}" class="nav-link {% if request.resolver_match.url_name == 'home' %}active{% endif %}">Панель управления</a></li>
+                <li><a href="{% url 'assets-list' %}" class="nav-link {% if request.resolver_match.url_name == 'assets-list' %}active{% endif %}">Активы</a></li>
+                <li><a href="{% url 'news' %}" class="nav-link {% if request.resolver_match.url_name == 'news' %}active{% endif %}">Новости</a></li>
+                <li><a href="{% url 'watchlists' %}" class="nav-link {% if request.resolver_match.url_name == 'watchlists' %}active{% endif %}">Списки наблюдения</a></li>
             </ul>
             <div class="nav-actions">
-                <a href="/admin/" class="btn btn-outline">Admin</a>
+                <a href="/admin/" class="btn btn-outline">Админ</a>
                 <a href="/api/" class="btn btn-primary">API</a>
             </div>
         </div>
@@ -34,10 +34,10 @@
 
     <footer class="footer">
         <div class="footer-container">
-            <p>&copy; 2024 Market Monitor. Real-time financial market monitoring.</p>
+            <p>&copy; 2024 Мониторинг Рынка. Мониторинг финансовых рынков в реальном времени.</p>
             <div class="footer-links">
-                <a href="/api/">API Documentation</a>
-                <a href="/admin/">Admin Panel</a>
+                <a href="/api/">Документация API</a>
+                <a href="/admin/">Панель администратора</a>
             </div>
         </div>
     </footer>

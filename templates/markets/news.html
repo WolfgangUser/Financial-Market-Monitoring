@@ -3,8 +3,8 @@
 {% block content %}
 <div class="news-page">
     <div class="page-header">
-        <h1>Market News</h1>
-        <p class="subtitle">Latest financial market news and analysis</p>
+        <h1>Новости рынка</h1>
+        <p class="subtitle">Последние новости и аналитика финансовых рынков</p>
     </div>
 
     <div class="news-list">
@@ -15,14 +15,14 @@
                 <p>{{ item.content }}</p>
                 <div class="article-meta">
                     <span class="article-source">{{ item.source }}</span>
-                    <span class="article-date">{{ item.published_at|date:"F d, Y H:i" }}</span>
-                    <span class="article-time">{{ item.published_at|timesince }} ago</span>
+                    <span class="article-date">{{ item.published_at|date:"d.m.Y H:i" }}</span>
+                    <span class="article-time">{{ item.published_at|timesince }} назад</span>
                 </div>
             </div>
         </article>
         {% empty %}
         <div class="empty-state-large">
-            <p>No news available at the moment.</p>
+            <p>В данный момент новостей нет.</p>
         </div>
         {% endfor %}
     </div>
