@@ -1,0 +1,39 @@
+{% extends 'markets/base.html' %}
+
+{% block content %}
+<div class="watchlists-page">
+    <div class="page-header">
+        <h1>My Watchlists</h1>
+        <p class="subtitle">Track your favorite assets in custom watchlists</p>
+    </div>
+
+    <div class="watchlists-grid">
+        {% for watchlist in watchlists %}
+        <div class="watchlist-card">
+            <div class="watchlist-header">
+                <h2>{{ watchlist.name }}</h2>
+                <span class="asset-count">{{ watchlist.assets.count }} assets</span>
+            </div>
+            <div class="watchlist-assets">
+                {% for asset in watchlist.assets.all %}
+                <a href="{% url 'asset-detail' asset.symbol %}" class="watchlist-asset-item">
+                    <span class="symbol-badge small">{{ asset.symbol }}</span>
+                    <span class="asset-name-small">{{ asset.name }}</span>
+                </a>
+                {% empty %}
+                <p class="empty-watchlist">No assets in this watchlist</p>
+                {% endfor %}
+            </div>
+            <div class="watchlist-footer">
+                <span class="created-date">Created: {{ watchlist.created_at|date:"M d, Y" }}</span>
+            </div>
+        </div>
+        {% empty %}
+        <div class="empty-state-large">
+            <p>No watchlists yet. Create watchlists via the admin panel.</p>
+            <a href="/admin/" class="btn btn-primary">Go to Admin</a>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,30 @@
+{% extends 'markets/base.html' %}
+
+{% block content %}
+<div class="news-page">
+    <div class="page-header">
+        <h1>Market News</h1>
+        <p class="subtitle">Latest financial market news and analysis</p>
+    </div>
+
+    <div class="news-list">
+        {% for item in news_items %}
+        <article class="news-article">
+            <div class="article-content">
+                <h2>{{ item.title }}</h2>
+                <p>{{ item.content }}</p>
+                <div class="article-meta">
+                    <span class="article-source">{{ item.source }}</span>
+                    <span class="article-date">{{ item.published_at|date:"F d, Y H:i" }}</span>
+                    <span class="article-time">{{ item.published_at|timesince }} ago</span>
+                </div>
+            </div>
+        </article>
+        {% empty %}
+        <div class="empty-state-large">
+            <p>No news available at the moment.</p>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

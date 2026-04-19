@@ -1,0 +1,100 @@
+{% extends 'markets/base.html' %}
+
+{% block content %}
+<div class="asset-detail-page">
+    <div class="page-header">
+        <a href="{% url 'assets-list' %}" class="back-link">← Back to Assets</a>
+        <div class="asset-title-row">
+            <span class="symbol-badge xlarge">{{ asset.symbol }}</span>
+            <h1>{{ asset.name }}</h1>
+        </div>
+        <span class="type-tag type-{{ asset.asset_type|lower }}">{{ asset.get_asset_type_display }}</span>
+    </div>
+
+    <div class="detail-grid">
+        <!-- Price Info Card -->
+        <div class="detail-card">
+            <h2>Price Information</h2>
+            <div class="price-display" id="current-price">
+                <span class="price-value">$--.--</span>
+                <span class="price-change" id="price-change">--%</span>
+            </div>
+            <p class="price-updated">Last updated: <span id="last-update">--:--:--</span></p>
+            <button class="btn btn-primary" onclick="refreshPrice()">Refresh Price</button>
+        </div>
+
+        <!-- Asset Details Card -->
+        <div class="detail-card">
+            <h2>Asset Details</h2>
+            <dl class="detail-list">
+                <dt>Symbol</dt>
+                <dd>{{ asset.symbol }}</dd>
+                <dt>Name</dt>
+                <dd>{{ asset.name }}</dd>
+                <dt>Type</dt>
+                <dd>{{ asset.get_asset_type_display }}</dd>
+                <dt>Description</dt>
+                <dd>{{ asset.description|default:"No description available" }}</dd>
+                <dt>Added</dt>
+                <dd>{{ asset.created_at|date:"M d, Y" }}</dd>
+            </dl>
+        </div>
+    </div>
+
+    <!-- Historical Data Section -->
+    <section class="content-section">
+        <h2>Historical Price Data (30 Days)</h2>
+        <div class="table-container">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Open</th>
+                        <th>High</th>
+                        <th>Low</th>
+                        <th>Close</th>
+                        <th>Volume</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for data in historical_data %}
+                    <tr>
+                        <td>{{ data.date|date:"M d, Y" }}</td>
+                        <td>${{ data.open|floatformat:2 }}</td>
+                        <td>${{ data.high|floatformat:2 }}</td>
+                        <td>${{ data.low|floatformat:2 }}</td>
+                        <td>${{ data.close|floatformat:2 }}</td>
+                        <td>{{ data.volume|intcomma }}</td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="6" class="empty-state">
+                            No historical data available.
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </section>
+</div>
+
+{% block extra_js %}
+<script>
+function refreshPrice() {
+    fetch('/api/asset/{{ asset.symbol }}/price/')
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById('current-price').querySelector('.price-value').textContent = '$' + data.price.toFixed(2);
+            document.getElementById('price-change').textContent = data.change_percent.toFixed(2) + '%';
+            document.getElementById('last-update').textContent = new Date().toLocaleTimeString();
+        })
+        .catch(err => console.error('Error fetching price:', err));
+}
+
+// Auto-refresh every 30 seconds
+setInterval(refreshPrice, 30000);
+refreshPrice();
+</script>
+{% endblock %}
+{% endblock %}
