@@ -16,18 +16,18 @@ from .services import MarketDataService, NewsService
 # ==================== MVC Pattern: Views (Controller Layer) ====================
 
 def home_view(request):
-    """Home page view"""
+    """Главная страница"""
     assets = Asset.objects.all()[:10]
     news = NewsService.get_latest_news(5)
     return render(request, 'markets/home.html', {
         'assets': assets,
         'news': news,
-        'page_title': 'Dashboard'
+        'page_title': 'Панель управления'
     })
 
 
 def assets_list_view(request):
-    """List all assets"""
+    """Список всех активов"""
     asset_type = request.GET.get('type', '')
     if asset_type:
         assets = Asset.objects.filter(asset_type=asset_type)
@@ -36,13 +36,13 @@ def assets_list_view(request):
     
     return render(request, 'markets/assets.html', {
         'assets': assets,
-        'page_title': 'Assets',
+        'page_title': 'Активы',
         'current_type': asset_type
     })
 
 
 def asset_detail_view(request, symbol):
-    """Detail view for a single asset"""
+    """Детальная информация об активе"""
     asset = get_object_or_404(Asset, symbol=symbol)
     prices = PriceData.objects.filter(asset=asset)[:30]
     historical_data = MarketDataService.fetch_historical_data(asset, 30)
@@ -51,32 +51,32 @@ def asset_detail_view(request, symbol):
         'asset': asset,
         'prices': prices,
         'historical_data': historical_data,
-        'page_title': f'{asset.symbol} - Details'
+        'page_title': f'{asset.symbol} - Детали'
     })
 
 
 def news_view(request):
-    """Market news page"""
+    """Страница новостей рынка"""
     news_items = NewsService.get_latest_news(20)
     return render(request, 'markets/news.html', {
         'news_items': news_items,
-        'page_title': 'Market News'
+        'page_title': 'Новости рынка'
     })
 
 
 def watchlists_view(request):
-    """Watchlists page"""
+    """Страница списков наблюдения"""
     watchlists = Watchlist.objects.prefetch_related('assets').all()
     return render(request, 'markets/watchlists.html', {
         'watchlists': watchlists,
-        'page_title': 'Watchlists'
+        'page_title': 'Списки наблюдения'
     })
 
 
 # ==================== REST API Views (DRF) ====================
 
 class AssetViewSet(viewsets.ModelViewSet):
-    """API endpoint for assets"""
+    """API endpoint для активов"""
     queryset = Asset.objects.all()
     serializer_class = AssetSerializer
     
@@ -87,46 +87,46 @@ class AssetViewSet(viewsets.ModelViewSet):
 
 
 class PriceDataViewSet(viewsets.ReadOnlyModelViewSet):
-    """API endpoint for price data"""
+    """API endpoint для данных о ценах"""
     queryset = PriceData.objects.all().order_by('-timestamp')
     serializer_class = PriceDataSerializer
 
 
 class WatchlistViewSet(viewsets.ModelViewSet):
-    """API endpoint for watchlists"""
+    """API endpoint для списков наблюдения"""
     queryset = Watchlist.objects.all()
     serializer_class = WatchlistSerializer
 
 
 class MarketNewsViewSet(viewsets.ReadOnlyModelViewSet):
-    """API endpoint for market news"""
+    """API endpoint для новостей рынка"""
     queryset = MarketNews.objects.all()
     serializer_class = MarketNewsSerializer
 
 
 class AssetPriceView(APIView):
-    """Get current price for an asset"""
+    """Получить текущую цену актива"""
     
     def get(self, request, symbol):
         asset = get_object_or_404(Asset, symbol=symbol)
         price_data = MarketDataService.get_asset_price(symbol)
         
         if price_data:
-            # Update database
+            # Обновить базу данных
             MarketDataService.update_asset_prices(asset)
             return Response(price_data)
         
-        return Response({'error': 'Price data not available'}, status=status.HTTP_404_NOT_FOUND)
+        return Response({'error': 'Данные о цене недоступны'}, status=status.HTTP_404_NOT_FOUND)
 
 
 class MarketOverviewView(APIView):
-    """Get market overview with top movers"""
+    """Получить обзор рынка с лидерами роста/падения"""
     
     def get(self, request):
         assets = Asset.objects.all()[:20]
         serializer = AssetWithPriceSerializer(assets, many=True)
         
-        # Calculate market stats
+        # Рассчитать статистику рынка
         total_assets = Asset.objects.count()
         total_price_records = PriceData.objects.count()
         

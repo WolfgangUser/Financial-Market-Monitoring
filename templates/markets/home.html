@@ -3,58 +3,58 @@
 {% block content %}
 <div class="dashboard">
     <div class="page-header">
-        <h1>Market Dashboard</h1>
-        <p class="subtitle">Real-time financial market monitoring and analysis</p>
+        <h1>Панель управления рынком</h1>
+        <p class="subtitle">Мониторинг и анализ финансовых рынков в реальном времени</p>
     </div>
 
-    <!-- Market Overview Cards -->
+    <!-- Карточки обзора рынка -->
     <div class="stats-grid">
         <div class="stat-card">
             <div class="stat-icon">📊</div>
             <div class="stat-content">
                 <span class="stat-value">{{ assets.count }}</span>
-                <span class="stat-label">Tracked Assets</span>
+                <span class="stat-label">Отслеживаемых активов</span>
             </div>
         </div>
         <div class="stat-card">
             <div class="stat-icon">📈</div>
             <div class="stat-content">
                 <span class="stat-value">+2.4%</span>
-                <span class="stat-label">Market Trend</span>
+                <span class="stat-label">Тренд рынка</span>
             </div>
         </div>
         <div class="stat-card">
             <div class="stat-icon">🕐</div>
             <div class="stat-content">
                 <span class="stat-value">Live</span>
-                <span class="stat-label">Market Status</span>
+                <span class="stat-label">Статус рынка</span>
             </div>
         </div>
         <div class="stat-card">
             <div class="stat-icon">📰</div>
             <div class="stat-content">
                 <span class="stat-value">{{ news|length }}</span>
-                <span class="stat-label">Latest News</span>
+                <span class="stat-label">Последние новости</span>
             </div>
         </div>
     </div>
 
-    <!-- Top Assets Section -->
+    <!-- Секция лучших активов -->
     <section class="content-section">
         <div class="section-header">
-            <h2>Top Assets</h2>
-            <a href="{% url 'assets-list' %}" class="btn btn-link">View All →</a>
+            <h2>Лучшие активы</h2>
+            <a href="{% url 'assets-list' %}" class="btn btn-link">Все →</a>
         </div>
         <div class="table-container">
             <table class="data-table">
                 <thead>
                     <tr>
-                        <th>Symbol</th>
-                        <th>Name</th>
-                        <th>Type</th>
-                        <th>Price</th>
-                        <th>Change</th>
-                        <th>Action</th>
+                        <th>Символ</th>
+                        <th>Название</th>
+                        <th>Тип</th>
+                        <th>Цена</th>
+                        <th>Изменение</th>
+                        <th>Действие</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -66,13 +66,13 @@
                         <td class="price-cell">$--.--</td>
                         <td class="change-cell">--%</td>
                         <td>
-                            <a href="{% url 'asset-detail' asset.symbol %}" class="btn btn-sm">Details</a>
+                            <a href="{% url 'asset-detail' asset.symbol %}" class="btn btn-sm">Детали</a>
                         </td>
                     </tr>
                     {% empty %}
                     <tr>
                         <td colspan="6" class="empty-state">
-                            No assets available. Add some assets via admin panel.
+                            Нет доступных активов. Добавьте активы через панель администратора.
                         </td>
                     </tr>
                     {% endfor %}
@@ -81,11 +81,11 @@
         </div>
     </section>
 
-    <!-- Latest News Section -->
+    <!-- Секция последних новостей -->
     <section class="content-section">
         <div class="section-header">
-            <h2>Latest Market News</h2>
-            <a href="{% url 'news' %}" class="btn btn-link">View All →</a>
+            <h2>Последние новости рынка</h2>
+            <a href="{% url 'news' %}" class="btn btn-link">Все →</a>
         </div>
         <div class="news-grid">
             {% for item in news %}
@@ -95,12 +95,12 @@
                     <p>{{ item.content|truncatewords:20 }}</p>
                     <div class="news-meta">
                         <span class="news-source">{{ item.source }}</span>
-                        <span class="news-time">{{ item.published_at|timesince }} ago</span>
+                        <span class="news-time">{{ item.published_at|timesince }} назад</span>
                     </div>
                 </div>
             </article>
             {% empty %}
-            <p class="empty-state">No news available.</p>
+            <p class="empty-state">Нет новостей.</p>
             {% endfor %}
         </div>
     </section>

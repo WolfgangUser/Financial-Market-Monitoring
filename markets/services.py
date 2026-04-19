@@ -5,9 +5,9 @@ from .models import Asset, PriceData
 
 
 class MarketDataService:
-    """Service for fetching market data from external APIs"""
+    """Сервис для получения рыночных данных из внешних API"""
     
-    # Mock data for demonstration (in production, use real API like Alpha Vantage, Yahoo Finance, etc.)
+    # Демо-данные для демонстрации (в продакшене используйте реальные API: Alpha Vantage, Yahoo Finance и т.д.)
     MOCK_PRICES = {
         'AAPL': {'base': 175.0, 'volatility': 0.02},
         'GOOGL': {'base': 140.0, 'volatility': 0.025},
@@ -21,7 +21,7 @@ class MarketDataService:
     
     @classmethod
     def get_asset_price(cls, symbol):
-        """Get current price for an asset (mock implementation)"""
+        """Получить текущую цену актива (демо-реализация)"""
         import random
         
         if symbol not in cls.MOCK_PRICES:
@@ -31,11 +31,11 @@ class MarketDataService:
         base_price = mock_data['base']
         volatility = mock_data['volatility']
         
-        # Generate realistic price movement
+        # Генерация реалистичного движения цены
         change_percent = random.uniform(-volatility, volatility)
         current_price = base_price * (1 + change_percent)
         
-        # Update base for next call (simulate market movement)
+        # Обновление базовой цены для следующего вызова (симуляция движения рынка)
         cls.MOCK_PRICES[symbol]['base'] = current_price
         
         return {
@@ -47,7 +47,7 @@ class MarketDataService:
     
     @classmethod
     def fetch_historical_data(cls, asset, days=30):
-        """Fetch historical price data for an asset"""
+        """Получить исторические данные о ценах актива"""
         import random
         
         if asset.symbol not in cls.MOCK_PRICES:
@@ -84,7 +84,7 @@ class MarketDataService:
     
     @classmethod
     def update_asset_prices(cls, asset):
-        """Update price data for an asset"""
+        """Обновить данные о ценах актива"""
         price_data = cls.get_asset_price(asset.symbol)
         
         if price_data:
@@ -102,39 +102,39 @@ class MarketDataService:
 
 
 class NewsService:
-    """Service for fetching market news"""
+    """Сервис для получения новостей рынка"""
     
     MOCK_NEWS = [
         {
-            'title': 'Tech Stocks Rally on Strong Earnings Reports',
-            'content': 'Major technology companies reported better-than-expected quarterly earnings, driving stock prices higher across the sector.',
+            'title': 'Технологические акции растут на фоне сильных отчетов',
+            'content': 'Крупные технологические компании отчитались о прибыли выше ожиданий, что привело к росту акций сектора.',
             'source': 'Market Watch',
         },
         {
-            'title': 'Federal Reserve Signals Potential Rate Changes',
-            'content': 'The Federal Reserve indicated possible adjustments to interest rates in response to economic indicators.',
+            'title': 'ФРС сигнализирует о возможных изменениях ставок',
+            'content': 'Федеральная резервная система намекнула на возможную корректировку процентных ставок в ответ на экономические показатели.',
             'source': 'Financial Times',
         },
         {
-            'title': 'Cryptocurrency Market Shows Volatility Amid Regulatory News',
-            'content': 'Bitcoin and other cryptocurrencies experienced significant price movements following regulatory announcements.',
+            'title': 'Рынок криптовалют показывает волатильность на фоне регуляторных новостей',
+            'content': 'Биткоин и другие криптовалюты испытали значительные колебания цен после заявлений регуляторов.',
             'source': 'Crypto Daily',
         },
         {
-            'title': 'Oil Prices Fluctuate on Global Supply Concerns',
-            'content': 'Crude oil prices varied as traders assessed global supply dynamics and geopolitical tensions.',
+            'title': 'Цены на нефть колеблются из-за опасений по поводу поставок',
+            'content': 'Цены на сырую нефть изменились, поскольку трейдеры оценивали глобальную динамику поставок и геополитическую напряженность.',
             'source': 'Energy Report',
         },
         {
-            'title': 'European Markets Close Higher on Economic Data',
-            'content': 'European stock indices ended the trading session with gains after positive economic data releases.',
+            'title': 'Европейские рынки закрылись ростом на экономических данных',
+            'content': 'Европейские фондовые индексы завершили торговую сессию ростом после публикации положительных экономических данных.',
             'source': 'EU Markets',
         },
     ]
     
     @classmethod
     def get_latest_news(cls, limit=10):
-        """Get latest market news"""
+        """Получить последние новости рынка"""
         import random
         from datetime import timedelta
         
