@@ -3,7 +3,7 @@
 {% block content %}
 <div class="asset-detail-page">
     <div class="page-header">
-        <a href="{% url 'assets-list' %}" class="back-link">← Back to Assets</a>
+        <a href="{% url 'assets-list' %}" class="back-link">← Назад к активам</a>
         <div class="asset-title-row">
             <span class="symbol-badge xlarge">{{ asset.symbol }}</span>
             <h1>{{ asset.name }}</h1>
@@ -12,54 +12,54 @@
     </div>
 
     <div class="detail-grid">
-        <!-- Price Info Card -->
+        <!-- Карточка информации о цене -->
         <div class="detail-card">
-            <h2>Price Information</h2>
+            <h2>Информация о цене</h2>
             <div class="price-display" id="current-price">
                 <span class="price-value">$--.--</span>
                 <span class="price-change" id="price-change">--%</span>
             </div>
-            <p class="price-updated">Last updated: <span id="last-update">--:--:--</span></p>
-            <button class="btn btn-primary" onclick="refreshPrice()">Refresh Price</button>
+            <p class="price-updated">Последнее обновление: <span id="last-update">--:--:--</span></p>
+            <button class="btn btn-primary" onclick="refreshPrice()">Обновить цену</button>
         </div>
 
-        <!-- Asset Details Card -->
+        <!-- Карточка деталей актива -->
         <div class="detail-card">
-            <h2>Asset Details</h2>
+            <h2>Детали актива</h2>
             <dl class="detail-list">
-                <dt>Symbol</dt>
+                <dt>Символ</dt>
                 <dd>{{ asset.symbol }}</dd>
-                <dt>Name</dt>
+                <dt>Название</dt>
                 <dd>{{ asset.name }}</dd>
-                <dt>Type</dt>
+                <dt>Тип</dt>
                 <dd>{{ asset.get_asset_type_display }}</dd>
-                <dt>Description</dt>
-                <dd>{{ asset.description|default:"No description available" }}</dd>
-                <dt>Added</dt>
-                <dd>{{ asset.created_at|date:"M d, Y" }}</dd>
+                <dt>Описание</dt>
+                <dd>{{ asset.description|default:"Описание отсутствует" }}</dd>
+                <dt>Добавлен</dt>
+                <dd>{{ asset.created_at|date:"d.m.Y" }}</dd>
             </dl>
         </div>
     </div>
 
-    <!-- Historical Data Section -->
+    <!-- Секция исторических данных -->
     <section class="content-section">
-        <h2>Historical Price Data (30 Days)</h2>
+        <h2>Исторические данные о цене (30 дней)</h2>
         <div class="table-container">
             <table class="data-table">
                 <thead>
                     <tr>
-                        <th>Date</th>
-                        <th>Open</th>
-                        <th>High</th>
-                        <th>Low</th>
-                        <th>Close</th>
-                        <th>Volume</th>
+                        <th>Дата</th>
+                        <th>Открытие</th>
+                        <th>Максимум</th>
+                        <th>Минимум</th>
+                        <th>Закрытие</th>
+                        <th>Объем</th>
                     </tr>
                 </thead>
                 <tbody>
                     {% for data in historical_data %}
                     <tr>
-                        <td>{{ data.date|date:"M d, Y" }}</td>
+                        <td>{{ data.date|date:"d.m.Y" }}</td>
                         <td>${{ data.open|floatformat:2 }}</td>
                         <td>${{ data.high|floatformat:2 }}</td>
                         <td>${{ data.low|floatformat:2 }}</td>
@@ -69,7 +69,7 @@
                     {% empty %}
                     <tr>
                         <td colspan="6" class="empty-state">
-                            No historical data available.
+                            Исторические данные отсутствуют.
                         </td>
                     </tr>
                     {% endfor %}
@@ -89,10 +89,10 @@ function refreshPrice() {
             document.getElementById('price-change').textContent = data.change_percent.toFixed(2) + '%';
             document.getElementById('last-update').textContent = new Date().toLocaleTimeString();
         })
-        .catch(err => console.error('Error fetching price:', err));
+        .catch(err => console.error('Ошибка получения цены:', err));
 }
 
-// Auto-refresh every 30 seconds
+// Автообновление каждые 30 секунд
 setInterval(refreshPrice, 30000);
 refreshPrice();
 </script>
