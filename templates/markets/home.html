@@ -68,7 +68,7 @@
                             {% if item.change_percent >= 0 %}↑{% else %}↓{% endif %} {{ item.change_percent|floatformat:2 }}%
                         </td>
                         <td>
-                            <a href="{% url 'asset-detail' item.asset.symbol %}" class="btn btn-sm">Детали</a>
+                            <a href="{% url 'asset-detail' asset.symbol %}" class="btn btn-sm">Детали</a>
                         </td>
                     </tr>
                     {% empty %}
