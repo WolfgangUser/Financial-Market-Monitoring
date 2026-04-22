@@ -22,6 +22,14 @@
                 <li><a href="{% url 'watchlists' %}" class="nav-link {% if request.resolver_match.url_name == 'watchlists' %}active{% endif %}">Списки наблюдения</a></li>
             </ul>
             <div class="nav-actions">
+                {% if user.is_authenticated %}
+                    <span class="user-greeting">👤 {{ user.username }}</span>
+                    <a href="{% url 'profile' %}" class="btn btn-outline">Профиль</a>
+                    <a href="{% url 'logout' %}" class="btn btn-danger">Выйти</a>
+                {% else %}
+                    <a href="{% url 'login' %}" class="btn btn-outline">Войти</a>
+                    <a href="{% url 'register' %}" class="btn btn-primary">Регистрация</a>
+                {% endif %}
                 <a href="/admin/" class="btn btn-outline">Админ</a>
                 <a href="/api/" class="btn btn-primary">API</a>
             </div>
@@ -29,6 +37,17 @@
     </nav>
 
     <main class="main-content">
+        {% if messages %}
+        <div class="messages-container">
+            {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">
+                {{ message }}
+                <button class="alert-close" onclick="this.parentElement.remove()">×</button>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+        
         {% block content %}{% endblock %}
     </main>
 

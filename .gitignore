@@ -1,62 +1,48 @@
 ```
-# Compiled Python files
-*.pyc
-__pycache__/
+# Database
+db.sqlite3
 
-# Dependencies
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
 venv/
 .venv/
-
-# Logs
-*.log
-
-# Environment files
+.ENV
+.ENV.*
 .env
-.env.local
-*.env.*
-
-# Coverage reports
+.env.*
+pip-log.txt
+pip-delete-this-directory.txt
+.tox/
 .coverage
-coverage/
-htmlcov/
-
-# IDE files
-.vscode/
-.idea/
-*.swp
-*.swo
-
-# OS files
-.DS_Store
-Thumbs.db
-
-# Build artifacts
-build/
-dist/
-target/
-*.egg-info/
-
-# Testing
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.log
+*.pot
+*.po
+*~
 .pytest_cache/
 .mypy_cache/
 
-# Compressed files
-*.zip
-*.gz
-*.tar
-*.tgz
-*.bz2
-*.xz
-*.7z
-*.rar
-*.zst
-*.lz4
-*.lzh
-*.cab
-*.arj
-*.rpm
-*.deb
-*.Z
-*.lz
-*.lzo
+# Django
+*.mo
+*.pot
+local_settings.py
+db.sqlite3-journal
+media/
+staticfiles/
+.DS_Store
+
+# Templates
+templates/*/base.html
+templates/*/login.html
+templates/*/profile.html
+templates/*/register.html
 ```
