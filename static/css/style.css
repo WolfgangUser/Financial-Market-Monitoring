@@ -243,6 +243,25 @@ body {
     background: var(--background);
 }
 
+/* Стили для ячеек изменения цены */
+.change-cell {
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.change-cell.positive {
+    color: var(--success-color);
+}
+
+.change-cell.negative {
+    color: var(--danger-color);
+}
+
+.price-cell {
+    font-weight: 600;
+    font-family: 'Courier New', monospace;
+}
+
 .empty-state {
     text-align: center;
     color: var(--text-secondary);

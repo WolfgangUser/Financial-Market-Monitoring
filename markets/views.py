@@ -19,8 +19,20 @@ def home_view(request):
     """Главная страница"""
     assets = Asset.objects.all()[:10]
     news = NewsService.get_latest_news(5)
+    
+    # Получаем текущие цены и изменения для каждого актива
+    assets_with_data = []
+    for asset in assets:
+        price_info = MarketDataService.get_current_price_with_change(asset)
+        assets_with_data.append({
+            'asset': asset,
+            'current_price': price_info['current_price'],
+            'change_percent': price_info['change_percent'],
+            'previous_price': price_info['previous_price'],
+        })
+    
     return render(request, 'markets/home.html', {
-        'assets': assets,
+        'assets_with_data': assets_with_data,
         'news': news,
         'page_title': 'Панель управления'
     })

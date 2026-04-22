@@ -58,15 +58,17 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% for asset in assets %}
+                    {% for item in assets_with_data %}
                     <tr>
-                        <td><span class="symbol-badge">{{ asset.symbol }}</span></td>
-                        <td>{{ asset.name }}</td>
-                        <td><span class="type-tag type-{{ asset.asset_type|lower }}">{{ asset.get_asset_type_display }}</span></td>
-                        <td class="price-cell">$--.--</td>
-                        <td class="change-cell">--%</td>
+                        <td><span class="symbol-badge">{{ item.asset.symbol }}</span></td>
+                        <td>{{ item.asset.name }}</td>
+                        <td><span class="type-tag type-{{ item.asset.asset_type|lower }}">{{ item.asset.get_asset_type_display }}</span></td>
+                        <td class="price-cell">${{ item.current_price|floatformat:2 }}</td>
+                        <td class="change-cell {% if item.change_percent >= 0 %}positive{% else %}negative{% endif %}">
+                            {% if item.change_percent >= 0 %}↑{% else %}↓{% endif %} {{ item.change_percent|floatformat:2 }}%
+                        </td>
                         <td>
-                            <a href="{% url 'asset-detail' asset.symbol %}" class="btn btn-sm">Детали</a>
+                            <a href="{% url 'asset-detail' item.asset.symbol %}" class="btn btn-sm">Детали</a>
                         </td>
                     </tr>
                     {% empty %}
