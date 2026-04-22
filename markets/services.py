@@ -46,6 +46,40 @@ class MarketDataService:
         }
     
     @classmethod
+    def get_current_price_with_change(cls, asset):
+        """Получить текущую цену и изменение в процентах для актива"""
+        import random
+        
+        if asset.symbol not in cls.MOCK_PRICES:
+            # Если актива нет в демо-данных, генерируем случайные данные
+            base_price = random.uniform(10, 500)
+            volatility = 0.03
+            previous_price = base_price * (1 - random.uniform(-volatility, volatility))
+            current_price = base_price
+            change_percent = ((current_price - previous_price) / previous_price) * 100
+            
+            return {
+                'current_price': round(current_price, 2),
+                'previous_price': round(previous_price, 2),
+                'change_percent': round(change_percent, 2),
+            }
+        
+        mock_data = cls.MOCK_PRICES[asset.symbol]
+        base_price = mock_data['base']
+        volatility = mock_data['volatility']
+        
+        # Генерируем предыдущую цену и текущее изменение
+        change_percent = random.uniform(-volatility, volatility)
+        previous_price = base_price / (1 + change_percent)
+        current_price = base_price
+        
+        return {
+            'current_price': round(current_price, 2),
+            'previous_price': round(previous_price, 2),
+            'change_percent': round(change_percent * 100, 2),
+        }
+    
+    @classmethod
     def fetch_historical_data(cls, asset, days=30):
         """Получить исторические данные о ценах актива"""
         import random
